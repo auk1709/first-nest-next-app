@@ -8,14 +8,12 @@ export default function ClientSide() {
   return (
     <div className={styles.container}>
       <Head>
-        <title>Create Next App</title>
+        <title>Todo by Next App</title>
         <link rel='icon' href='/favicon.ico' />
       </Head>
 
       <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href='https://nextjs.org'>Next.js!</a>
-        </h1>
+        <h1 className={styles.title}>Let's manage tasks!!!</h1>
         <ClientOnly>
           <Todos />
           <AddTodo />

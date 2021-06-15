@@ -1,4 +1,5 @@
 import { gql, useMutation } from '@apollo/client';
+import { useState } from 'react';
 
 const ADD_TODO = gql`
   mutation AddTodo($content: String!) {
@@ -10,7 +11,7 @@ const ADD_TODO = gql`
 `;
 
 const AddTodo = () => {
-  let input;
+  const [input, setInput] = useState('');
   const [addTodo, { data }] = useMutation(ADD_TODO);
 
   return (
@@ -18,15 +19,11 @@ const AddTodo = () => {
       <form
         onSubmit={(e) => {
           e.preventDefault();
-          addTodo({ variables: { content: input.value } });
-          input.value = '';
+          addTodo({ variables: { content: input } });
+          setInput('');
         }}
       >
-        <input
-          ref={(node) => {
-            input = node;
-          }}
-        />
+        <input value={input} onChange={(e) => setInput(e.target.value)} />
         <button type='submit'>Add Todo</button>
       </form>
     </div>

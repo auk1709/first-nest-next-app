@@ -1,5 +1,6 @@
-import { useQuery, gql } from '@apollo/client';
+import { useQuery, gql, NetworkStatus, useMutation } from '@apollo/client';
 import styles from '../styles/Home.module.css';
+import DelTodoBtn from './DeleteTodo';
 
 type Todo = {
   id: number;
@@ -20,7 +21,7 @@ export default function Todos() {
     notifyOnNetworkStatusChange: true,
   });
 
-  if (networkStatus === networkStatus.refetch) return 'Refetching!';
+  if (networkStatus === NetworkStatus.refetch) return <h2>Refetching!</h2>;
   if (loading) {
     return <h2>Loading...</h2>;
   }
@@ -33,9 +34,10 @@ export default function Todos() {
   const todos: Todo[] = data.todos;
   return (
     <div className={styles.grid}>
-      {todos.map((todo) => (
-        <div key={todo.id} className={styles.card}>
-          <p>{todo.content}</p>
+      {todos.map(({ id, content }) => (
+        <div key={id} className={styles.card}>
+          <p>{content}</p>
+          <DelTodoBtn id={id} />
         </div>
       ))}
       <button onClick={() => refetch()}>Refetch!</button>
