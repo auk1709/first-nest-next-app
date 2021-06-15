@@ -1,31 +1,36 @@
+/** @jsxImportSource @emotion/react */
 import Head from 'next/head';
-import styles from '../styles/Home.module.css';
 import ClientOnly from '../components/ClientOnly';
 import Todos from '../components/Todos';
 import AddTodo from '../components/AddTodo';
+import { css } from '@emotion/react';
 
 export default function ClientSide() {
   return (
-    <div className={styles.container}>
+    <div>
       <Head>
         <title>Todo by Next App</title>
         <link rel='icon' href='/favicon.ico' />
       </Head>
 
-      <main className={styles.main}>
-        <h1 className={styles.title}>Let's manage tasks!!!</h1>
+      <main css={styles.container}>
+        <h1 css={styles.title}>Let's manage tasks!!!</h1>
         <ClientOnly>
-          <Todos />
           <AddTodo />
+          <Todos />
         </ClientOnly>
       </main>
-
-      <footer className={styles.footer}>
-        <a href='https://vercel.com' target='_blank' rel='noopener noreferrer'>
-          Powered by{' '}
-          <img src='/vercel.svg' alt='Vercel Logo' className={styles.logo} />
-        </a>
-      </footer>
     </div>
   );
 }
+
+const styles = {
+  container: css`
+    max-width: 800px;
+    margin: auto;
+    padding: 1rem;
+  `,
+  title: css`
+    text-align: center;
+  `,
+};

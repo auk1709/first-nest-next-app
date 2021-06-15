@@ -1,23 +1,11 @@
-import { useQuery, gql, NetworkStatus, useMutation } from '@apollo/client';
-import styles from '../styles/Home.module.css';
+import { useQuery, NetworkStatus } from '@apollo/client';
 import DelTodoBtn from './DeleteTodo';
-
-type Todo = {
-  id: number;
-  content: string;
-};
-
-const QUERY = gql`
-  query {
-    todos: getAllTodos {
-      id
-      content
-    }
-  }
-`;
+import { GET_TODO } from '../queries';
+import { Todo } from '../types';
+import { css } from '@emotion/react';
 
 export default function Todos() {
-  const { data, loading, error, refetch, networkStatus } = useQuery(QUERY, {
+  const { data, loading, error, refetch, networkStatus } = useQuery(GET_TODO, {
     notifyOnNetworkStatusChange: true,
   });
 
@@ -33,14 +21,23 @@ export default function Todos() {
 
   const todos: Todo[] = data.todos;
   return (
-    <div className={styles.grid}>
+    <div>
       {todos.map(({ id, content }) => (
-        <div key={id} className={styles.card}>
+        <div key={id} css={styles.todo}>
           <p>{content}</p>
           <DelTodoBtn id={id} />
         </div>
       ))}
-      <button onClick={() => refetch()}>Refetch!</button>
     </div>
   );
 }
+
+const styles = {
+  todo: css`
+    display: flex;
+    justify-content: space-between;
+    font-size: 1rem;
+    font-weight: bold;
+    border-bottom: 1px solid #c0c0c0;
+  `,
+};
